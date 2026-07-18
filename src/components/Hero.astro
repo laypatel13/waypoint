@@ -1,0 +1,92 @@
+---
+---
+
+<section id="top" class="hero">
+  <div class="hero-text">
+    <p class="eyebrow">hi, i'm</p>
+    <h1>Lay Patel.</h1>
+    <p class="tagline">
+      first-year CS student building ML tools and open source projects,
+      one checkpoint at a time.
+    </p>
+    <a class="cta" href="#work">view my work</a>
+  </div>
+
+  <svg
+    class="hero-art"
+    width="140"
+    height="140"
+    viewBox="0 0 140 140"
+    role="img"
+    aria-label="Line illustration of a person"
+  >
+    <circle cx="70" cy="42" r="20" fill="none" stroke="currentColor" stroke-width="2" />
+    <path
+      d="M50 62 Q70 75 90 62 L90 110 Q70 120 50 110 Z"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+    />
+    <line x1="45" y1="95" x2="30" y2="105" stroke="currentColor" stroke-width="2" />
+    <line x1="95" y1="95" x2="110" y2="105" stroke="currentColor" stroke-width="2" />
+  </svg>
+</section>
+
+<style>
+  .hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    background: var(--surface);
+    border-radius: var(--radius);
+    padding: 40px 32px;
+    margin: 24px 0;
+    color: var(--text);
+  }
+
+  .hero-text {
+    max-width: 380px;
+  }
+
+  h1 {
+    font-size: 34px;
+    line-height: 1.1;
+    margin: 8px 0 14px;
+  }
+
+  .tagline {
+    font-size: 15px;
+    color: var(--text-secondary);
+    margin: 0 0 20px;
+  }
+
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--accent);
+    color: var(--on-accent);
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    padding: 10px 18px;
+    border-radius: 10px;
+  }
+
+  .hero-art {
+    flex-shrink: 0;
+    color: var(--text);
+  }
+
+  @media (max-width: 560px) {
+    .hero {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .hero-text {
+      max-width: 100%;
+    }
+  }
+</style>
