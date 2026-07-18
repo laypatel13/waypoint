@@ -1,0 +1,65 @@
+---
+import { getCollection } from "astro:content";
+
+const entries = await getCollection("checkpoints");
+const sorted = entries.sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+
+function formatDate(date: Date) {
+  return date
+    .toLocaleDateString("en-US", { month: "short", year: "2-digit" })
+    .toLowerCase()
+    .replace(" ", " '");
+}
+---
+
+<section id="checkpoints" class="checkpoints">
+  <p class="section-label">checkpoints</p>
+  <ul>
+    {
+      sorted.map((entry) => (
+        <li>
+          <span class="date">{formatDate(entry.data.date)}</span>
+          <span class="title">{entry.data.title}</span>
+        </li>
+      ))
+    }
+  </ul>
+</section>
+
+<style>
+  .checkpoints {
+    margin: 48px 0;
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  li {
+    display: flex;
+    gap: 14px;
+    align-items: baseline;
+    padding: 12px 0;
+    border-top: 0.5px solid var(--border);
+  }
+
+  li:last-child {
+    border-bottom: 0.5px solid var(--border);
+  }
+
+  .date {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-muted);
+    width: 60px;
+    flex-shrink: 0;
+  }
+
+  .title {
+    font-size: 14px;
+  }
+</style>
