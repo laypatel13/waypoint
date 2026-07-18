@@ -1,0 +1,73 @@
+---
+const projects = [
+  {
+    name: "clutch",
+    description: "dev activity dashboard, built as project admin for ECSoC26",
+    href: "https://github.com/laypatel13/clutch",
+  },
+  {
+    name: "lore",
+    description: "codebase memory and knowledge graph, built at a hackathon",
+    href: "#",
+  },
+  {
+    name: "siloed",
+    description: "multi-tenant RAG app, built as an assessment project",
+    href: "https://github.com/laypatel13/siloed",
+  },
+];
+---
+
+<section id="work" class="work">
+  <p class="section-label">work</p>
+  <div class="grid">
+    {
+      projects.map((project) => (
+        <a class="card" href={project.href}>
+          <p class="card-title">{project.name}</p>
+          <p class="card-desc">{project.description}</p>
+        </a>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .work {
+    margin: 48px 0;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+  }
+
+  .card {
+    display: block;
+    background: var(--surface);
+    border-radius: 12px;
+    padding: 18px;
+    text-decoration: none;
+    color: var(--text);
+    transition: transform 0.15s ease;
+  }
+
+  .card:hover,
+  .card:focus-visible {
+    transform: translateY(-2px);
+  }
+
+  .card-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 15px;
+    margin: 0 0 6px;
+  }
+
+  .card-desc {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin: 0;
+  }
+</style>
