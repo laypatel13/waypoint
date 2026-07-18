@@ -1,0 +1,49 @@
+---
+---
+
+<header class="site-header">
+  <a class="brand" href="#top" aria-label="Back to top">waypoint</a>
+  <nav>
+    <a href="#work">work</a>
+    <a href="#checkpoints">checkpoints</a>
+    <a href="#contact">contact</a>
+  </nav>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+    background: var(--bg);
+  }
+
+  .brand {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 16px;
+    text-decoration: none;
+    color: var(--text);
+  }
+
+  nav {
+    display: flex;
+    gap: 20px;
+  }
+
+  nav a {
+    font-size: 13px;
+    text-decoration: none;
+    color: var(--text-secondary);
+    transition: color 0.15s ease;
+  }
+
+  nav a:hover,
+  nav a:focus-visible {
+    color: var(--text);
+  }
+</style>
