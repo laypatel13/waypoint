@@ -143,14 +143,13 @@ const teeth = Array.from({ length: 8 }, (_, i) => i * 45);
     align-items: center;
     justify-content: center;
     text-decoration: none;
-    color: var(--text-muted);
-    transition: border-color 0.15s ease, color 0.15s ease;
+    color: var(--text);
+    transition: border-color 0.15s ease;
   }
 
   .thumb:hover,
   .thumb:focus-visible {
     border-color: var(--text-muted);
-    color: var(--text);
   }
 
   .details {
