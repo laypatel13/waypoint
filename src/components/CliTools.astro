@@ -1,204 +1,64 @@
 ---
-type CliTool = {
-  name: string;
-  description: string;
-  pipName: string;
-  github: string;
-};
-
-// descriptions are inferred from repo names — tweak any that don't match reality.
-const tools: CliTool[] = [
-  {
-    name: "data-visualizer",
-    description: "Terminal charts and plots generated straight from a CSV or JSON file.",
-    pipName: "laypatel13-data-visualizer",
-    github: "https://github.com/laypatel13/data-visualizer",
-  },
-  {
-    name: "sales-report",
-    description: "Turns raw transaction data into a formatted sales summary report.",
-    pipName: "laypatel13-sales-report",
-    github: "https://github.com/laypatel13/sales-report",
-  },
-  {
-    name: "grade-analyzer",
-    description: "Computes grade distributions and stats from a class roster CSV.",
-    pipName: "laypatel13-grade-analyzer",
-    github: "https://github.com/laypatel13/grade-analyzer",
-  },
-  {
-    name: "csv-analyzer",
-    description: "Quick statistical breakdown and anomaly checks for any CSV file.",
-    pipName: "laypatel13-csv-analyzer",
-    github: "https://github.com/laypatel13/csv-analyzer",
-  },
-  {
-    name: "animal-shelter",
-    description: "Manages shelter intake, adoption, and animal records from the terminal.",
-    pipName: "laypatel13-animal-shelter",
-    github: "https://github.com/laypatel13/animal-shelter",
-  },
-  {
-    name: "library-manager",
-    description: "Tracks book inventory, checkouts, and due dates from the CLI.",
-    pipName: "laypatel13-library-manager",
-    github: "https://github.com/laypatel13/library-manager",
-  },
-  {
-    name: "expense-tracker",
-    description: "Logs and summarizes personal expenses by category from the terminal.",
-    pipName: "laypatel13-expense-tracker",
-    github: "https://github.com/laypatel13/expense-tracker",
-  },
+const toolRepos = [
+  "https://github.com/laypatel13/data-visualizer",
+  "https://github.com/laypatel13/sales-report",
+  "https://github.com/laypatel13/grade-analyzer",
+  "https://github.com/laypatel13/csv-analyzer",
+  "https://github.com/laypatel13/animal-shelter",
+  "https://github.com/laypatel13/library-manager",
+  "https://github.com/laypatel13/expense-tracker",
 ];
 ---
 
 <section id="cli-tools" class="cli-tools">
-  <p class="section-label">cli tools</p>
-
-  <details class="dropdown">
-    <summary>
-      <span class="summary-text">{tools.length} small CLI tools published on PyPI, from back when I was first learning Python.</span>
-      <span class="chevron">⌄</span>
-    </summary>
-
-    <ul class="tool-list">
-      {
-        tools.map((tool) => (
-          <li class="tool-row">
-            <div class="tool-main">
-              <a class="tool-name" href={tool.github} target="_blank" rel="noopener noreferrer">
-                {tool.name}
-                <span class="arrow">↗</span>
-              </a>
-              <p class="tool-desc">{tool.description}</p>
-            </div>
-            <code class="tool-install">pip install {tool.pipName}</code>
-          </li>
-        ))
-      }
-    </ul>
-  </details>
+  <p class="cli-line">
+    7 small CLI tools published on PyPI, from back when I was first learning
+    Python.<br>
+    <a
+      id="random-tool-link"
+      href={toolRepos[0]}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      explore a random one
+    </a>
+  </p>
 </section>
+
+<script define:vars={{ toolRepos }}>
+  const link = document.getElementById("random-tool-link");
+  link?.addEventListener("click", (event) => {
+    event.preventDefault();
+    const pick = toolRepos[Math.floor(Math.random() * toolRepos.length)];
+    window.open(pick, "_blank", "noopener,noreferrer");
+  });
+</script>
 
 <style>
   .cli-tools {
     margin: 0 0 48px;
   }
 
-  .dropdown {
+  .cli-line {
+    font-family: var(--font-display);
+    font-size: 15px;
+    color: var(--text-secondary);
+    background: var(--surface);
     border: 0.5px solid var(--border);
     border-radius: 10px;
-    background: var(--surface);
-    overflow: hidden;
+    padding: 16px 18px;
+    margin: 0;
   }
 
-  summary {
-    list-style: none;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    padding: 14px 18px;
+  .cli-line a {
+    color: var(--text);
+    text-decoration: underline;
+    text-underline-offset: 2px;
     cursor: pointer;
   }
 
-  summary::-webkit-details-marker {
-    display: none;
-  }
-
-  .summary-text {
-    font-family: var(--font-display);
-    font-size: 14px;
-    color: var(--text);
-  }
-
-  .chevron {
-    flex-shrink: 0;
-    color: var(--text-muted);
-    transition: transform 0.15s ease;
-  }
-
-  .dropdown[open] .chevron {
-    transform: rotate(180deg);
-  }
-
-  .tool-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    border-top: 0.5px solid var(--border);
-  }
-
-  .tool-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px;
-    padding: 16px 18px;
-    border-top: 0.5px solid var(--border);
-  }
-
-  .tool-row:first-child {
-    border-top: none;
-  }
-
-  .tool-main {
-    min-width: 0;
-  }
-
-  .tool-name {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    font-family: var(--font-display);
-    font-size: 16px;
-    text-decoration: none;
-    color: var(--text);
-  }
-
-  .tool-name:hover .arrow,
-  .tool-name:focus-visible .arrow {
-    transform: translate(2px, -2px);
-  }
-
-  .arrow {
-    display: inline-block;
-    font-size: 12px;
+  .cli-line a:hover,
+  .cli-line a:focus-visible {
     color: var(--text-secondary);
-    transition: transform 0.15s ease;
-  }
-
-  .tool-desc {
-    font-family: var(--font-body);
-    font-size: 13px;
-    color: var(--text-secondary);
-    margin: 4px 0 0;
-    line-height: 1.5;
-  }
-
-  .tool-install {
-    flex-shrink: 0;
-    font-family: var(--font-mono);
-    font-size: 12px;
-    color: var(--text-muted);
-    background: var(--bg, transparent);
-    border: 0.5px solid var(--border);
-    padding: 6px 10px;
-    border-radius: 6px;
-    white-space: nowrap;
-  }
-
-  @media (max-width: 560px) {
-    .tool-row {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 10px;
-    }
-
-    .tool-install {
-      align-self: stretch;
-      text-align: left;
-    }
   }
 </style>
