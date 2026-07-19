@@ -22,6 +22,91 @@ const {
     <title>{title}</title>
   </head>
   <body>
+    <div id="cursor-glow" aria-hidden="true"></div>
     <slot />
+    <a href="#top" id="back-to-top" aria-label="Back to top">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+        <path d="M5 15 L12 8 L19 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    </a>
   </body>
 </html>
+
+<style>
+  #back-to-top {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 3;
+    color: var(--text);
+    display: flex;
+    text-decoration: none;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(8px);
+    transition: opacity 0.2s ease, transform 0.2s ease, color 0.15s ease;
+  }
+
+  #back-to-top.visible {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+
+  #back-to-top:hover,
+  #back-to-top:focus-visible {
+    color: var(--text-secondary);
+  }
+</style>
+
+<style>
+  body {
+    position: relative;
+  }
+
+  #cursor-glow {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: radial-gradient(
+      600px circle at var(--x, 50%) var(--y, 50%),
+      rgba(20, 20, 15, 0.1),
+      transparent 70%
+    );
+    transition: opacity 0.2s ease;
+    opacity: 0;
+  }
+
+  #cursor-glow.active {
+    opacity: 1;
+  }
+
+  main {
+    position: relative;
+    z-index: 2;
+  }
+</style>
+
+<script>
+  const glow = document.getElementById("cursor-glow");
+
+  if (glow) {
+    window.addEventListener("mousemove", (e) => {
+      glow.style.setProperty("--x", `${e.clientX}px`);
+      glow.style.setProperty("--y", `${e.clientY}px`);
+      glow.classList.add("active");
+    });
+
+    window.addEventListener("mouseleave", () => {
+      glow.classList.remove("active");
+    });
+  }
+
+  const backToTop = document.getElementById("back-to-top");
+  if (backToTop) {
+    window.addEventListener("scroll", () => {
+      backToTop.classList.toggle("visible", window.scrollY > 400);
+    });
+  }
+</script>
