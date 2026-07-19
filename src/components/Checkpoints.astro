@@ -1,9 +1,16 @@
 ---
-import { getCollection } from "astro:content";
+import { getCollection, render } from "astro:content";
 
 const entries = await getCollection("checkpoints");
 const sorted = entries.sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+
+const items = await Promise.all(
+  sorted.map(async (entry) => {
+    const { Content } = await render(entry);
+    return { entry, Content };
+  })
 );
 
 function formatDate(date: Date) {
@@ -18,10 +25,20 @@ function formatDate(date: Date) {
   <p class="section-label">checkpoints</p>
   <ul>
     {
-      sorted.map((entry) => (
+      items.map(({ entry, Content }) => (
         <li>
-          <span class="date">{formatDate(entry.data.date)}</span>
-          <span class="title">{entry.data.title}</span>
+          <details class="checkpoint">
+            <summary>
+              <span class="date">{formatDate(entry.data.date)}</span>
+              <span class="title">{entry.data.title}</span>
+              <svg class="chevron" width="12" height="12" viewBox="0 0 12 12" fill="none">
+                <path d="M2.5 4.5 L6 8 L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </summary>
+            <div class="note">
+              <Content />
+            </div>
+          </details>
         </li>
       ))
     }
@@ -40,15 +57,35 @@ function formatDate(date: Date) {
   }
 
   li {
-    display: flex;
-    gap: 14px;
-    align-items: baseline;
-    padding: 12px 0;
     border-top: 0.5px solid var(--border);
   }
 
   li:last-child {
     border-bottom: 0.5px solid var(--border);
+  }
+
+  .checkpoint summary {
+    list-style: none;
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    padding: 12px 0;
+    cursor: pointer;
+    outline: none;
+  }
+
+  .checkpoint summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .checkpoint summary::marker {
+    content: "";
+  }
+
+  .checkpoint summary:focus-visible {
+    outline: none;
+    box-shadow: inset 0 0 0 1px var(--text-muted);
+    border-radius: 6px;
   }
 
   .date {
@@ -61,5 +98,34 @@ function formatDate(date: Date) {
 
   .title {
     font-size: 14px;
+    flex: 1;
+  }
+
+  .chevron {
+    flex-shrink: 0;
+    color: var(--text-muted);
+    transition: transform 0.15s ease;
+  }
+
+  .checkpoint[open] .chevron {
+    transform: rotate(180deg);
+  }
+
+  .note {
+    padding: 0 0 16px 74px;
+    font-family: var(--font-body);
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.55;
+  }
+
+  .note :global(p) {
+    margin: 0;
+  }
+
+  @media (max-width: 480px) {
+    .note {
+      padding-left: 0;
+    }
   }
 </style>
