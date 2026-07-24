@@ -1,12 +1,11 @@
 <svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
   <rect x="4" y="4" width="132" height="132" rx="28" fill="#ffffff" stroke="#e4e1d9" stroke-width="4" />
-  <circle cx="70" cy="46" r="18" fill="none" stroke="#14140f" stroke-width="5" />
   <path
-    d="M52 64 Q70 76 88 64 L88 108 Q70 116 52 108 Z"
+    d="M70 24 C52 24 38 38 38 56 C38 80 70 116 70 116 C70 116 102 80 102 56 C102 38 88 24 70 24 Z"
     fill="none"
     stroke="#14140f"
-    stroke-width="5"
+    stroke-width="6"
+    stroke-linejoin="round"
   />
-  <line x1="48" y1="96" x2="34" y2="104" stroke="#14140f" stroke-width="5" />
-  <line x1="92" y1="96" x2="106" y2="104" stroke="#14140f" stroke-width="5" />
+  <circle cx="70" cy="56" r="13" fill="none" stroke="#14140f" stroke-width="6" />
 </svg>

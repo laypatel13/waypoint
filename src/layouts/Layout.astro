@@ -82,6 +82,12 @@ const {
     opacity: 1;
   }
 
+  @media (hover: none), (pointer: coarse) {
+    #cursor-glow {
+      display: none;
+    }
+  }
+
   main {
     position: relative;
     z-index: 2;
@@ -90,8 +96,9 @@ const {
 
 <script>
   const glow = document.getElementById("cursor-glow");
+  const isTouchDevice = window.matchMedia("(hover: none), (pointer: coarse)").matches;
 
-  if (glow) {
+  if (glow && !isTouchDevice) {
     window.addEventListener("mousemove", (e) => {
       glow.style.setProperty("--x", `${e.clientX}px`);
       glow.style.setProperty("--y", `${e.clientY}px`);
