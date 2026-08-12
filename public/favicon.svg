@@ -1,11 +1,19 @@
 <svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
-  <rect x="4" y="4" width="132" height="132" rx="28" fill="#ffffff" stroke="#e4e1d9" stroke-width="4" />
   <path
-    d="M70 24 C52 24 38 38 38 56 C38 80 70 116 70 116 C70 116 102 80 102 56 C102 38 88 24 70 24 Z"
-    fill="none"
-    stroke="#14140f"
-    stroke-width="6"
-    stroke-linejoin="round"
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    fill="#ffffff"
+    d="M70 20
+       C50 20 34 36 34 56
+       C34 84 70 122 70 122
+       C70 122 106 84 106 56
+       C106 36 90 20 70 20
+       Z
+       M70 40
+       C81 40 90 47.5 90 57
+       C90 66.5 81 74 70 74
+       C59 74 50 66.5 50 57
+       C50 47.5 59 40 70 40
+       Z"
   />
-  <circle cx="70" cy="56" r="13" fill="none" stroke="#14140f" stroke-width="6" />
 </svg>
