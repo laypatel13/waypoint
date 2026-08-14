@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600&family=Sora:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600&family=Sora:wght@400;500&family=Poppins:wght@400;500&display=swap');
 
 :root {
   --bg: #ffffff;
@@ -12,7 +12,7 @@
 
   --font-display: "Newsreader", serif;
   --font-body: "Sora", sans-serif;
-  --font-mono: "IBM Plex Mono", monospace;
+  --font-mono: "Poppins", sans-serif;
 
   --radius: 16px;
   --max-width: 720px;
