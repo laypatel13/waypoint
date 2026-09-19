@@ -153,6 +153,19 @@ function formatDate(date: Date) {
     margin: 0;
   }
 
+  .note :global(a) {
+    color: var(--text);
+    text-decoration: underline;
+    text-decoration-color: var(--border-strong);
+    text-underline-offset: 3px;
+    transition: color var(--dur-fast) ease, text-decoration-color var(--dur-fast) ease;
+  }
+
+  .note :global(a:hover) {
+    color: var(--accent);
+    text-decoration-color: var(--accent);
+  }
+
   /* animate the disclosure where the browser supports it (instant otherwise) */
   .checkpoint::details-content {
     block-size: 0;

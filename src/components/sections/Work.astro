@@ -10,7 +10,7 @@ type Project = {
 const projects: Project[] = [
   {
     name: "clutch",
-    description: "AI-Powered Developer Activity & Productivity Dashboard.",
+    description: "Open source developer activity dashboard with a FastAPI backend, a React frontend and a CLI published on PyPI.",
     tags: ["Python 3.11", "FastAPI 0.103", "React 18", "TypeScript 5.0", "Tailwind 3.4"],
     demo: "https://clutch-woad.vercel.app",
     github: "https://github.com/laypatel13/clutch",
@@ -43,13 +43,15 @@ const stripVersion = (tag: string) => tag.replace(/\s+v?[\d.]+$/, "");
               <h3 class="project-title">{project.name}</h3>
               <p class="project-desc">{project.description}</p>
 
-              <ul class="tags" aria-label="Technologies">
-                {project.tags.map((tag) => (
-                  <li class="tag" title={tag}>
-                    {stripVersion(tag)}
-                  </li>
-                ))}
-              </ul>
+              {project.tags.length > 0 && (
+                <ul class="tags" aria-label="Technologies">
+                  {project.tags.map((tag) => (
+                    <li class="tag" title={tag}>
+                      {stripVersion(tag)}
+                    </li>
+                  ))}
+                </ul>
+              )}
 
               <div class="actions">
                 {project.demo && (
