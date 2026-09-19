@@ -141,21 +141,36 @@
       margin-right: auto;
     }
 
-    /* all four links must stay visible at 320-375px: tighter padding, no scroller */
+    /* own row under the brand: links spread across the full width so the gaps
+       between tap targets grow with the screen, and all four always fit */
     nav {
       order: 3;
-      width: 100%;
-      margin-left: calc(var(--space-2) * -1);
+      width: calc(100% + var(--space-2));
+      margin-inline: calc(var(--space-1) * -1);
+      justify-content: space-between;
       gap: 0;
     }
 
     nav a {
-      padding: 0 var(--space-2);
+      padding: 0 var(--space-1);
     }
 
     nav a::after {
-      left: var(--space-2);
-      right: var(--space-2);
+      left: var(--space-1);
+      right: var(--space-1);
+    }
+  }
+
+  /* smallest phones: slightly smaller type and padding keep a gap between the four links */
+  @media (max-width: 360px) {
+    nav a {
+      padding: 0 2px;
+      font-size: var(--text-xs);
+    }
+
+    nav a::after {
+      left: 2px;
+      right: 2px;
     }
   }
 </style>

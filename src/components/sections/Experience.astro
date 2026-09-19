@@ -150,6 +150,13 @@ const roles: Role[] = [
     text-decoration-color: var(--accent);
   }
 
+  /* inline links: grow the touch area without changing the line spacing */
+  @media (pointer: coarse) {
+    .org a {
+      padding-block: 13px;
+    }
+  }
+
   .role-desc {
     max-width: var(--measure);
     margin: 0;

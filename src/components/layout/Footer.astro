@@ -88,6 +88,21 @@ const year = new Date().getFullYear();
     gap: var(--space-3);
   }
 
+  /* narrow phones: email on its own full-width row, the two profiles share the next one */
+  @media (max-width: 480px) {
+    .links {
+      width: 100%;
+    }
+
+    .links .btn {
+      flex: 1 1 auto;
+    }
+
+    .links .btn-primary {
+      flex-basis: 100%;
+    }
+  }
+
   .colophon {
     margin: var(--section-gap) 0 0;
     padding-top: var(--space-5);

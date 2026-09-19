@@ -86,6 +86,14 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 24px;
+  -webkit-text-size-adjust: 100%; /* stop iOS inflating text in landscape */
+  -webkit-tap-highlight-color: var(--accent-soft);
+}
+
+a,
+button,
+summary {
+  touch-action: manipulation; /* no double-tap-zoom delay on controls */
 }
 
 body {
@@ -139,7 +147,10 @@ p {
   left: var(--space-4);
   top: -64px;
   z-index: 200;
-  padding: 10px 16px;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 16px;
   border-radius: var(--radius-sm);
   background: var(--accent);
   color: var(--on-accent);
@@ -260,6 +271,13 @@ p {
 .btn-sm {
   min-height: 40px;
   padding: 0 14px;
+}
+
+/* phones: every button gets a full 44px touch target */
+@media (max-width: 640px), (pointer: coarse) {
+  .btn-sm {
+    min-height: 44px;
+  }
 }
 
 /* ------------------------------------------------------------------

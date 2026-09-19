@@ -94,7 +94,7 @@
   }
 
   h1 {
-    font-size: clamp(2.75rem, 1.8rem + 4vw, 4.5rem);
+    font-size: clamp(2.25rem, 1.2rem + 5.5vw, 4.5rem);
     line-height: 1;
     letter-spacing: -0.02em;
     margin: 0 0 var(--space-4);
@@ -187,8 +187,16 @@
     }
 
     .hero-art {
-      width: 120px;
-      height: 120px;
+      width: 96px;
+      height: 96px;
+      margin-bottom: calc(var(--space-2) * -1);
+    }
+  }
+
+  /* narrow phones: buttons share each row, or stretch to full width when they wrap */
+  @media (max-width: 480px) {
+    .actions .btn {
+      flex: 1 1 auto;
     }
   }
 </style>
