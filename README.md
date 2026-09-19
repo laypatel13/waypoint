@@ -20,7 +20,7 @@ Commit and push — Vercel redeploys automatically.
 
 ## Adding a project
 
-Edit the `projects` array in `src/components/Work.astro`.
+Edit the `projects` array in `src/components/sections/Work.astro`.
 
 ## Local development
 

@@ -21,19 +21,25 @@ function formatDate(date: Date) {
 }
 ---
 
-<section id="checkpoints" class="checkpoints">
-  <p class="section-label">checkpoints</p>
-  <ul>
+<section id="checkpoints" class="checkpoints" aria-labelledby="checkpoints-title">
+  <div class="section-head" data-reveal>
+    <span class="idx" aria-hidden="true">03</span>
+    <h2 id="checkpoints-title">checkpoints</h2>
+  </div>
+
+  <ul data-reveal>
     {
       items.map(({ entry, Content }) => (
         <li>
-          <details class="checkpoint">
+          <details class="checkpoint" name="checkpoints">
             <summary>
               <span class="date">{formatDate(entry.data.date)}</span>
               <span class="title">{entry.data.title}</span>
-              <svg class="chevron" width="12" height="12" viewBox="0 0 12 12" fill="none">
-                <path d="M2.5 4.5 L6 8 L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-              </svg>
+              <span class="chevron" aria-hidden="true">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="m6 9 6 6 6-6" />
+                </svg>
+              </span>
             </summary>
             <div class="note">
               <Content />
@@ -47,31 +53,33 @@ function formatDate(date: Date) {
 
 <style>
   .checkpoints {
-    margin: 48px 0;
+    --date-w: 64px;
+    --row-gap: var(--space-4);
+    margin: var(--section-gap) 0;
   }
 
   ul {
     list-style: none;
     margin: 0;
     padding: 0;
+    border-top: 1px solid var(--border);
   }
 
   li {
-    border-top: 0.5px solid var(--border);
-  }
-
-  li:last-child {
-    border-bottom: 0.5px solid var(--border);
+    border-bottom: 1px solid var(--border);
   }
 
   .checkpoint summary {
-    list-style: none;
     display: flex;
-    align-items: baseline;
-    gap: 14px;
-    padding: 12px 0;
+    align-items: center;
+    gap: var(--row-gap);
+    min-height: 56px;
+    padding: var(--space-3) var(--space-2);
+    margin-inline: calc(var(--space-2) * -1);
+    border-radius: var(--radius-sm);
+    list-style: none;
     cursor: pointer;
-    outline: none;
+    transition: background-color var(--dur-fast) ease;
   }
 
   .checkpoint summary::-webkit-details-marker {
@@ -83,49 +91,85 @@ function formatDate(date: Date) {
   }
 
   .checkpoint summary:focus-visible {
-    outline: none;
-    box-shadow: inset 0 0 0 1px var(--text-muted);
-    border-radius: 6px;
+    outline-offset: 0;
+    border-radius: var(--radius-sm);
+  }
+
+  @media (hover: hover) {
+    .checkpoint summary:hover {
+      background: var(--surface);
+    }
+
+    .checkpoint summary:hover .title {
+      color: var(--accent);
+    }
   }
 
   .date {
-    font-family: var(--font-mono);
-    font-size: 12px;
-    color: var(--text-muted);
-    width: 60px;
     flex-shrink: 0;
+    width: var(--date-w);
+    font-family: var(--font-label);
+    font-size: var(--text-xs);
+    color: var(--text-muted);
   }
 
   .title {
-    font-size: 14px;
     flex: 1;
+    font-size: 0.9375rem;
+    transition: color var(--dur-fast) ease;
   }
 
   .chevron {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    border: 1px solid var(--border);
+    border-radius: 50%;
     color: var(--text-muted);
-    transition: transform 0.15s ease;
+    transition:
+      transform var(--dur) var(--ease-out),
+      border-color var(--dur-fast) ease,
+      color var(--dur-fast) ease;
   }
 
   .checkpoint[open] .chevron {
     transform: rotate(180deg);
+    border-color: var(--accent);
+    color: var(--accent);
   }
 
   .note {
-    padding: 0 0 16px 74px;
-    font-family: var(--font-body);
-    font-size: 13px;
+    padding: 0 0 var(--space-4) calc(var(--date-w) + var(--row-gap));
+    font-size: var(--text-sm);
+    line-height: 1.65;
     color: var(--text-secondary);
-    line-height: 1.55;
   }
 
   .note :global(p) {
+    max-width: var(--measure);
     margin: 0;
   }
 
+  /* animate the disclosure where the browser supports it (instant otherwise) */
+  .checkpoint::details-content {
+    block-size: 0;
+    overflow: hidden;
+    transition:
+      block-size var(--dur) var(--ease-out),
+      content-visibility var(--dur) allow-discrete;
+  }
+
+  .checkpoint[open]::details-content {
+    block-size: auto;
+  }
+
   @media (max-width: 480px) {
-    .note {
-      padding-left: 0;
+    .checkpoints {
+      --date-w: 52px;
+      --row-gap: var(--space-3);
     }
   }
 </style>

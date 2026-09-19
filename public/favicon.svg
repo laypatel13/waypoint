@@ -1,4 +1,5 @@
 <svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
+  <rect width="140" height="140" rx="32" fill="#2563eb" />
   <path
     fill-rule="evenodd"
     clip-rule="evenodd"

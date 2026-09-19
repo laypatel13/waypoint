@@ -1,46 +1,232 @@
 ---
 ---
 
-<header class="site-header">
-  <a class="brand" href="#top" aria-label="Back to top">waypoint</a>
-  <nav>
+<header class="site-header container">
+  <a class="brand" href="#top" aria-label="waypoint, back to top">
+    <span class="dot" aria-hidden="true"></span>
+    waypoint
+  </a>
+
+  <nav aria-label="Primary">
     <a href="#work">work</a>
     <a href="#experience">experience</a>
     <a href="#checkpoints">checkpoints</a>
     <a href="#contact">contact</a>
   </nav>
+
+  <button type="button" id="theme-toggle" class="theme-toggle" aria-label="Dark mode" aria-pressed="false">
+    <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="4" />
+      <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+    </svg>
+    <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" />
+    </svg>
+  </button>
 </header>
 
 <style>
   .site-header {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 20px 0;
+    gap: var(--space-5);
+    padding-block: var(--space-4);
   }
 
   .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: 44px;
     font-family: var(--font-display);
-    font-weight: 600;
-    font-size: 16px;
+    font-weight: 400;
+    font-size: 1.125rem;
     text-decoration: none;
     color: var(--text);
+  }
+
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    transition: transform var(--dur) var(--ease-out);
+  }
+
+  .brand:hover .dot {
+    transform: scale(1.5);
   }
 
   nav {
     display: flex;
-    gap: 20px;
+    gap: var(--space-1);
+    margin-left: auto;
   }
 
   nav a {
-    font-size: 13px;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 var(--space-3);
+    font-size: var(--text-sm);
     text-decoration: none;
     color: var(--text-secondary);
-    transition: color 0.15s ease;
+    transition: color var(--dur-fast) ease;
+  }
+
+  nav a::after {
+    content: "";
+    position: absolute;
+    left: var(--space-3);
+    right: var(--space-3);
+    bottom: 9px;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--dur) var(--ease-out);
   }
 
   nav a:hover,
-  nav a:focus-visible {
+  nav a[aria-current="true"] {
     color: var(--text);
   }
+
+  nav a[aria-current="true"]::after {
+    transform: scaleX(1);
+  }
+
+  .theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    background: var(--surface-raised);
+    color: var(--text);
+    cursor: pointer;
+    transition:
+      border-color var(--dur-fast) ease,
+      color var(--dur-fast) ease,
+      transform var(--dur) var(--ease-out);
+  }
+
+  .theme-toggle:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .theme-toggle:active {
+    transform: scale(0.94);
+  }
+
+  /* show the icon of the theme you would switch to */
+  :global(:root[data-theme="dark"]) .icon-moon,
+  :global(:root:not([data-theme="dark"])) .icon-sun {
+    display: none;
+  }
+
+  @media (max-width: 640px) {
+    .site-header {
+      flex-wrap: wrap;
+      gap: var(--space-2);
+    }
+
+    .brand {
+      margin-right: auto;
+    }
+
+    /* all four links must stay visible at 320-375px: tighter padding, no scroller */
+    nav {
+      order: 3;
+      width: 100%;
+      margin-left: calc(var(--space-2) * -1);
+      gap: 0;
+    }
+
+    nav a {
+      padding: 0 var(--space-2);
+    }
+
+    nav a::after {
+      left: var(--space-2);
+      right: var(--space-2);
+    }
+  }
 </style>
+
+<script>
+  const root = document.documentElement;
+  const toggle = document.getElementById("theme-toggle");
+  const themeColor = document.querySelector('meta[name="theme-color"]');
+
+  const apply = (theme: "light" | "dark") => {
+    root.dataset.theme = theme;
+    toggle?.setAttribute("aria-pressed", String(theme === "dark"));
+    themeColor?.setAttribute("content", theme === "dark" ? "#0f0f0c" : "#fbfaf7");
+  };
+
+  const hasStoredTheme = () => {
+    try {
+      const stored = localStorage.getItem("theme");
+      return stored === "light" || stored === "dark";
+    } catch {
+      return false;
+    }
+  };
+
+  apply(root.dataset.theme === "dark" ? "dark" : "light");
+
+  toggle?.addEventListener("click", () => {
+    const next = root.dataset.theme === "dark" ? "light" : "dark";
+    root.classList.add("theme-anim");
+    apply(next);
+    try {
+      localStorage.setItem("theme", next);
+    } catch {}
+    window.setTimeout(() => root.classList.remove("theme-anim"), 400);
+  });
+
+  // follow the system theme until the visitor picks one explicitly
+  window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (e) => {
+    if (!hasStoredTheme()) apply(e.matches ? "dark" : "light");
+  });
+
+  // highlight the section currently in view
+  const links = Array.from(document.querySelectorAll<HTMLAnchorElement>('nav a[href^="#"]'));
+  const targets = links.map((a) => document.querySelector(a.getAttribute("href") ?? ""));
+  let ticking = false;
+
+  const update = () => {
+    ticking = false;
+    const line = window.innerHeight * 0.4;
+    let current = -1;
+    targets.forEach((target, i) => {
+      if (target && target.getBoundingClientRect().top <= line) current = i;
+    });
+    if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) {
+      current = targets.length - 1;
+    }
+    links.forEach((a, i) => {
+      if (i === current) a.setAttribute("aria-current", "true");
+      else a.removeAttribute("aria-current");
+    });
+  };
+
+  window.addEventListener(
+    "scroll",
+    () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
+      }
+    },
+    { passive: true },
+  );
+  update();
+</script>

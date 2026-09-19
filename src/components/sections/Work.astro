@@ -5,7 +5,6 @@ type Project = {
   tags: string[];
   demo: string | null;
   github: string | null;
-  icon: "cog" | "droplet" | "stack";
 };
 
 const projects: Project[] = [
@@ -15,7 +14,6 @@ const projects: Project[] = [
     tags: ["Python 3.11", "FastAPI 0.103", "React 18", "TypeScript 5.0", "Tailwind 3.4"],
     demo: "https://clutch-woad.vercel.app",
     github: "https://github.com/laypatel13/clutch",
-    icon: "cog",
   },
   {
     name: "datawash",
@@ -23,205 +21,156 @@ const projects: Project[] = [
     tags: ["Python 3.11", "Flask 3.0.3", "Numpy 1.26", "Pandas 2.2", "Plotly 5.22"],
     demo: "https://data-wash-sr98.onrender.com",
     github: "https://github.com/laypatel13/data-wash",
-    icon: "droplet",
   },
 ];
 
-const teeth = Array.from({ length: 8 }, (_, i) => i * 45);
+// chips show the technology; the exact version stays available on hover
+const stripVersion = (tag: string) => tag.replace(/\s+v?[\d.]+$/, "");
 ---
 
-<section id="work" class="work">
-  <p class="section-label">work</p><br>
+<section id="work" class="work" aria-labelledby="work-title">
+  <div class="section-head" data-reveal>
+    <span class="idx" aria-hidden="true">01</span>
+    <h2 id="work-title">work</h2>
+  </div>
+
   <div class="list">
     {
-      projects.map((project) => {
-        const imageHref = project.demo ?? project.github;
-        const titleHref = project.github ?? project.demo;
-
-        return (
+      projects.map((project, i) => (
+        <div class="cell" data-reveal style={`--i:${i}`}>
           <article class="project">
-            <a
-              class="thumb"
-              href={imageHref}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`Open ${project.name}`}
-            >
-              {project.icon === "cog" && (
-                <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
-                  <circle cx="22" cy="22" r="9" stroke="currentColor" stroke-width="2" />
-                  <circle cx="22" cy="22" r="3.5" stroke="currentColor" stroke-width="2" />
-                  {teeth.map((angle) => (
-                    <rect
-                      x="20.5"
-                      y="6"
-                      width="3"
-                      height="7"
-                      rx="1"
-                      stroke="currentColor"
-                      stroke-width="1.5"
-                      transform={`rotate(${angle} 22 22)`}
-                    />
-                  ))}
-                </svg>
-              )}
-
-              {project.icon === "droplet" && (
-                <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
-                  <path
-                    d="M22 6 C22 6 12 20 12 27 A10 10 0 0 0 32 27 C32 20 22 6 22 6 Z"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-              )}
-
-              {project.icon === "stack" && (
-                <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
-                  <rect x="8" y="8" width="28" height="7" rx="1.5" stroke="currentColor" stroke-width="2" />
-                  <rect x="8" y="18.5" width="28" height="7" rx="1.5" stroke="currentColor" stroke-width="2" />
-                  <rect x="8" y="29" width="28" height="7" rx="1.5" stroke="currentColor" stroke-width="2" />
-                </svg>
-              )}
-            </a>
-
-            <div class="details">
-              <h3 class="project-title">
-                <a href={titleHref} target="_blank" rel="noopener noreferrer">
-                  {project.name}
-                  <span class="arrow">↗</span>
-                </a>
-              </h3>
+            <div class="body">
+              <h3 class="project-title">{project.name}</h3>
               <p class="project-desc">{project.description}</p>
-              <div class="tags">
+
+              <ul class="tags" aria-label="Technologies">
                 {project.tags.map((tag) => (
-                  <span class="tag">{tag}</span>
+                  <li class="tag" title={tag}>
+                    {stripVersion(tag)}
+                  </li>
                 ))}
+              </ul>
+
+              <div class="actions">
+                {project.demo && (
+                  <a
+                    class="btn btn-primary btn-sm"
+                    href={project.demo}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`${project.name} live demo (opens in a new tab)`}
+                  >
+                    live demo
+                    <svg class="ico-out" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M7 17 17 7M8 7h9v9" />
+                    </svg>
+                  </a>
+                )}
+                {project.github && (
+                  <a
+                    class="btn btn-ghost btn-sm"
+                    href={project.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`${project.name} source code (opens in a new tab)`}
+                  >
+                    source
+                    <svg class="ico-out" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M7 17 17 7M8 7h9v9" />
+                    </svg>
+                  </a>
+                )}
               </div>
             </div>
           </article>
-        );
-      })
+        </div>
+      ))
     }
   </div>
 </section>
 
 <style>
   .work {
-    margin: 48px 0;
+    margin: var(--section-gap) 0 var(--space-6);
   }
 
   .list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
+    gap: var(--space-5);
+  }
+
+  .cell {
     display: flex;
-    flex-direction: column;
-    gap: 32px;
   }
 
   .project {
     display: flex;
-    gap: 20px;
-    align-items: stretch;
-    padding: 16px;
-    margin: -16px;
-    border-radius: 12px;
-    border: 1px solid transparent;
-    transition: background-color 0.2s ease, border-color 0.2s ease;
+    flex-direction: column;
+    width: 100%;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface-raised);
+    box-shadow: var(--shadow-1);
+    transition:
+      transform var(--dur) var(--ease-out),
+      box-shadow var(--dur) var(--ease-out),
+      border-color var(--dur) ease;
   }
 
-  .project:hover,
-  .project:focus-within {
-    background: rgba(255, 255, 255, 0.5);
-    border-color: rgba(20, 20, 15, 0.08);
-    backdrop-filter: blur(12px) saturate(140%);
-    -webkit-backdrop-filter: blur(12px) saturate(140%);
-    box-shadow: 0 8px 30px rgba(20, 20, 15, 0.06);
+  @media (hover: hover) {
+    .project:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-3);
+      border-color: var(--border-strong);
+    }
   }
 
-  .thumb {
-    flex-shrink: 0;
-    width: 120px;
-    min-height: 80px;
-    align-self: stretch;
-    border-radius: 10px;
-    background: var(--surface);
-    border: 0.5px solid var(--border);
+  .body {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    color: var(--text);
-    transition: border-color 0.15s ease;
-  }
-
-  .thumb:hover,
-  .thumb:focus-visible {
-    border-color: var(--text-muted);
-  }
-
-  .details {
     flex: 1;
-    min-width: 0;
+    flex-direction: column;
+    padding: var(--space-5);
   }
 
   .project-title {
-    font-size: 16px;
-    margin: 0 0 6px;
-  }
-
-  .project-title a {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    text-decoration: none;
-    color: var(--text);
-  }
-
-  .project-title a:hover .arrow,
-  .project-title a:focus-visible .arrow {
-    transform: translate(2px, -2px);
-  }
-
-  .arrow {
-    display: inline-block;
-    font-size: 13px;
-    color: var(--text-secondary);
-    transition: transform 0.15s ease;
+    margin: 0 0 var(--space-2);
+    font-size: 1.5rem;
+    line-height: 1.15;
   }
 
   .project-desc {
-    font-family: var(--font-body);
-    font-size: 14px;
+    margin: 0 0 var(--space-4);
+    font-size: 0.9375rem;
+    line-height: 1.6;
     color: var(--text-secondary);
-    margin: 0 0 12px;
-    line-height: 1.55;
   }
 
   .tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: var(--space-2);
+    margin: 0 0 var(--space-5);
+    padding: 0;
+    list-style: none;
   }
 
   .tag {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--text-secondary);
+    padding: 4px 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-pill);
     background: var(--surface);
-    border: 0.5px solid var(--border);
-    padding: 4px 10px;
-    border-radius: 999px;
+    font-family: var(--font-label);
+    font-size: var(--text-xs);
+    color: var(--text-secondary);
     white-space: nowrap;
   }
 
-  @media (max-width: 480px) {
-    .project {
-      flex-direction: column;
-    }
-
-    .thumb {
-      width: 100%;
-      min-height: 96px;
-    }
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-top: auto;
   }
 </style>
