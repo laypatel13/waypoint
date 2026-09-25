@@ -1,0 +1,105 @@
+---
+import { getCollection } from "astro:content";
+import { formatMonth } from "../../lib/format";
+import CliTools from "./CliTools.astro";
+
+const entries = await getCollection("checkpoints", (entry) => entry.data.kind === "learning");
+const sorted = entries.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<section id="learning" class="learning" aria-labelledby="learning-title">
+  <div class="section-head" data-reveal>
+    <span class="idx" aria-hidden="true">03</span>
+    <h2 id="learning-title">learning</h2>
+  </div>
+
+  <ul data-reveal>
+    {
+      sorted.map((entry) => (
+        <li class="course">
+          <time class="date" datetime={entry.data.date.toISOString().slice(0, 10)}>
+            {formatMonth(entry.data.date)}
+          </time>
+          <span class="title">{entry.data.title}</span>
+          {entry.data.issuer && <span class="issuer">{entry.data.issuer}</span>}
+        </li>
+      ))
+    }
+  </ul>
+
+  <CliTools />
+</section>
+
+<style>
+  .learning {
+    --date-w: 64px;
+    --row-gap: var(--space-4);
+    margin: var(--section-gap) 0;
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .course {
+    display: flex;
+    align-items: baseline;
+    gap: var(--row-gap);
+    min-height: 52px;
+    padding: var(--space-3) 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .date {
+    flex-shrink: 0;
+    width: var(--date-w);
+    font-family: var(--font-display);
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+  }
+
+  .title {
+    flex: 1;
+    min-width: 0;
+    font-size: 0.9375rem;
+  }
+
+  .issuer {
+    flex-shrink: 0;
+    font-family: var(--font-label);
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    text-align: right;
+  }
+
+  /* narrow phones: 16px titles, issuer drops under the title */
+  @media (max-width: 480px) {
+    .learning {
+      --date-w: 60px;
+      --row-gap: var(--space-3);
+    }
+
+    .course {
+      flex-wrap: wrap;
+      row-gap: 2px;
+    }
+
+    .date {
+      font-size: var(--text-sm);
+    }
+
+    .title {
+      flex-basis: calc(100% - var(--date-w) - var(--row-gap));
+      font-size: var(--text-base);
+    }
+
+    .issuer {
+      margin-left: calc(var(--date-w) + var(--row-gap));
+      font-size: var(--text-sm);
+      text-align: left;
+    }
+  }
+</style>

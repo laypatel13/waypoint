@@ -1,6 +1,8 @@
 ---
 date: 2026-04-01
-title: freeCodeCamp Python V9
+title: Python V9
+kind: learning
+issuer: freeCodeCamp
 ---
 
 Strengthened core Python skills — functions, loops, and data structures.

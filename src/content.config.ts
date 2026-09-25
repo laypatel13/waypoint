@@ -6,6 +6,9 @@ const checkpoints = defineCollection({
   schema: z.object({
     date: z.date(),
     title: z.string(),
+    // highlight: an achievement with a short story; learning: a course or certificate
+    kind: z.enum(["highlight", "learning"]),
+    issuer: z.string().optional(),
   }),
 });
 

@@ -1,0 +1,124 @@
+---
+import { getCollection, render } from "astro:content";
+import { formatMonth } from "../../lib/format";
+
+const entries = await getCollection("checkpoints", (entry) => entry.data.kind === "highlight");
+const sorted = entries.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const items = await Promise.all(
+  sorted.map(async (entry) => {
+    const { Content } = await render(entry);
+    return { entry, Content };
+  })
+);
+---
+
+<section id="highlights" class="highlights" aria-labelledby="highlights-title">
+  <div class="section-head" data-reveal>
+    <span class="idx" aria-hidden="true">02</span>
+    <h2 id="highlights-title">highlights</h2>
+  </div>
+
+  <ul>
+    {
+      items.map(({ entry, Content }, i) => (
+        <li class="highlight" data-reveal style={`--i:${i}`}>
+          <p class="date">
+            <time datetime={entry.data.date.toISOString().slice(0, 10)}>{formatMonth(entry.data.date)}</time>
+          </p>
+          <div class="text">
+            <h3 class="title">{entry.data.title}</h3>
+            <div class="note">
+              <Content />
+            </div>
+          </div>
+        </li>
+      ))
+    }
+  </ul>
+</section>
+
+<style>
+  .highlights {
+    --date-w: 64px;
+    --row-gap: var(--space-4);
+    margin: var(--section-gap) 0;
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .highlight {
+    display: flex;
+    gap: var(--row-gap);
+    padding: var(--space-5) 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .date {
+    flex-shrink: 0;
+    width: var(--date-w);
+    margin: 0;
+    padding-top: 4px;
+    font-family: var(--font-display);
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+  }
+
+  .text {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .title {
+    margin: 0 0 var(--space-2);
+    font-size: 1.125rem;
+    line-height: 1.35;
+  }
+
+  .note {
+    font-size: var(--text-sm);
+    line-height: 1.65;
+    color: var(--text-secondary);
+  }
+
+  .note :global(p) {
+    max-width: var(--measure);
+    margin: 0;
+  }
+
+  .note :global(a) {
+    color: var(--text);
+    text-decoration: underline;
+    text-decoration-color: var(--border-strong);
+    text-underline-offset: 3px;
+    transition: color var(--dur-fast) ease, text-decoration-color var(--dur-fast) ease;
+  }
+
+  .note :global(a:hover) {
+    color: var(--accent);
+    text-decoration-color: var(--accent);
+  }
+
+  /* phones: date sits above the title so the text gets the full width */
+  @media (max-width: 480px) {
+    .highlight {
+      flex-direction: column;
+      gap: var(--space-1);
+    }
+
+    .date {
+      width: auto;
+      padding-top: 0;
+      font-size: var(--text-sm);
+    }
+
+    .note {
+      font-size: var(--text-base);
+    }
+  }
+</style>

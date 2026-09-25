@@ -1,4 +1,13 @@
 ---
+import { getMergedCounts } from "../../lib/github";
+
+const { total } = await getMergedCounts();
+
+// `live` marks the number PrCounts refreshes in the browser
+const proof = [
+  { value: String(total), label: "merged open source PRs", href: "#open-source", live: true },
+  { value: "top 21", label: "of 600+ at GIFT hackathon", href: "#highlights", live: false },
+];
 ---
 
 <section id="top" class="hero" aria-labelledby="hero-title">
@@ -12,9 +21,21 @@
         rel="noopener noreferrer">@adani university</a
       > building and contributing to open source.
     </p>
-    <div class="actions" data-reveal style="--i:3">
-      <a class="btn btn-primary" href="#work">
-        view my work
+    <ul class="proof" data-reveal style="--i:3">
+      {
+        proof.map((item) => (
+          <li>
+            <a href={item.href}>
+              <span class="proof-value" data-pr-total={item.live || undefined}>{item.value}</span>
+              <span class="proof-label">{item.label}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <div class="actions" data-reveal style="--i:4">
+      <a class="btn btn-primary" href="#open-source">
+        see my open source
         <svg class="ico-down" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="M12 5v14M19 12l-7 7-7-7" />
         </svg>
@@ -62,35 +83,11 @@
 
   /* reads as the start of one sentence with the name: "hi, i'm Lay Patel." */
   .kicker {
-    display: flex;
-    align-items: center;
-    gap: var(--space-3);
     margin: 0 0 var(--space-2);
     font-family: var(--font-display);
     font-size: clamp(1.25rem, 1.05rem + 1vw, 1.625rem);
     line-height: 1.2;
     color: var(--text-secondary);
-  }
-
-  /* accent rule that draws in from the left once the kicker reveals */
-  .kicker::before {
-    content: "";
-    flex-shrink: 0;
-    width: 32px;
-    height: 2px;
-    border-radius: 2px;
-    background: var(--accent);
-  }
-
-  .js .kicker::before {
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 700ms var(--ease-out) 250ms;
-  }
-
-  .js .kicker.is-visible::before,
-  .js.reveal-fallback .kicker::before {
-    transform: none;
   }
 
   h1 {
@@ -124,6 +121,41 @@
   .tagline a:hover {
     color: var(--accent);
     text-decoration-color: var(--accent);
+  }
+
+  .proof {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-5);
+    margin: 0 0 var(--space-6);
+    padding: 0;
+    list-style: none;
+  }
+
+  .proof a {
+    display: flex;
+    flex-direction: column;
+    min-height: 44px;
+    justify-content: center;
+    text-decoration: none;
+  }
+
+  .proof-value {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    line-height: 1.1;
+    color: var(--text);
+    transition: color var(--dur-fast) ease;
+  }
+
+  .proof-label {
+    font-family: var(--font-label);
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+  }
+
+  .proof a:hover .proof-value {
+    color: var(--accent);
   }
 
   .actions {
@@ -193,8 +225,24 @@
     }
   }
 
-  /* narrow phones: buttons share each row, or stretch to full width when they wrap */
+  /* narrow phones: tighter card padding for wider text, stats side by side,
+     buttons share each row or stretch to full width when they wrap */
   @media (max-width: 480px) {
+    .hero {
+      padding-inline: 20px;
+    }
+
+    .proof {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-4);
+    }
+
+    .proof-label {
+      font-size: var(--text-sm);
+      line-height: 1.4;
+    }
+
     .actions .btn {
       flex: 1 1 auto;
     }

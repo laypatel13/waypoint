@@ -10,7 +10,7 @@ const toolRepos = [
 ];
 ---
 
-<section id="cli-tools" class="cli-tools" aria-labelledby="cli-title" data-reveal>
+<div id="cli-tools" class="cli-tools" data-reveal>
   <div class="card">
     <div class="copy">
       <h3 id="cli-title">{toolRepos.length} small CLI tools</h3>
@@ -33,7 +33,7 @@ const toolRepos = [
       </svg>
     </a>
   </div>
-</section>
+</div>
 
 <script>
   const link = document.getElementById("random-tool");
@@ -48,7 +48,7 @@ const toolRepos = [
 
 <style>
   .cli-tools {
-    margin: 0 0 var(--section-gap);
+    margin-top: var(--space-6);
   }
 
   .card {
@@ -76,5 +76,11 @@ const toolRepos = [
 
   .btn {
     flex-shrink: 0;
+  }
+
+  @media (max-width: 480px) {
+    p {
+      font-size: var(--text-base);
+    }
   }
 </style>

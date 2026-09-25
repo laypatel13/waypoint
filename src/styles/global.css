@@ -70,6 +70,13 @@
   color-scheme: dark;
 }
 
+/* small phones: a slightly narrower gutter buys the text a few more characters a line */
+@media (max-width: 400px) {
+  :root {
+    --gutter: 20px;
+  }
+}
+
 @media (min-width: 768px) {
   :root {
     --gutter: 32px;
@@ -188,15 +195,6 @@ p {
   font-size: clamp(1.75rem, 1.4rem + 1.2vw, 2.25rem);
   line-height: 1.1;
   letter-spacing: -0.01em;
-}
-
-.section-head::after {
-  content: "";
-  flex: 1;
-  height: 2px;
-  border-radius: 2px;
-  align-self: center;
-  background: var(--border);
 }
 
 .btn {

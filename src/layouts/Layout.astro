@@ -1,14 +1,17 @@
 ---
 import "../styles/global.css";
+import { getMergedCounts } from "../lib/github";
 
 interface Props {
   title?: string;
   description?: string;
 }
 
+const { total } = await getMergedCounts();
+
 const {
   title = "waypoint - laypatel13",
-  description = "Second-year CSE(AI/ML) student at Adani University, building and contributing to open source.",
+  description = `Second-year CSE(AI/ML) student at Adani University. ${total} merged PRs across freeCodeCamp and Learning Unlimited.`,
 } = Astro.props;
 ---
 

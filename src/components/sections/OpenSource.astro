@@ -1,0 +1,184 @@
+---
+import { OSS_REPOS, getMergedCounts, mergedPrsUrl, mergedQuery, type OssRepo } from "../../lib/github";
+
+type Contribution = {
+  project: string;
+  href: string;
+  role: string;
+  period: string;
+  repo: OssRepo;
+  description: string;
+};
+
+const { byRepo } = await getMergedCounts();
+
+const contributions: Contribution[] = [
+  {
+    project: "Learning Unlimited",
+    href: "https://github.com/learning-unlimited/ESP-Website",
+    role: "ESP-Website contributor",
+    period: "sep '26 — present",
+    repo: OSS_REPOS.learningUnlimited,
+    description:
+      "Fixes and tests across the site, starting with a crash on stale filters and unit tests for the rapid check-in widget. More in review, including an admin class search and a Bootstrap modal migration.",
+  },
+  {
+    project: "freeCodeCamp",
+    href: "https://github.com/freeCodeCamp/freeCodeCamp",
+    role: "curriculum contributor",
+    period: "jul '26 — present",
+    repo: OSS_REPOS.freeCodeCamp,
+    description:
+      "Part of Naomi's sprints initiative, replacing regex-based test cases with the Explorer AST helper across the JavaScript curriculum.",
+  },
+];
+---
+
+<section id="open-source" class="open-source" aria-labelledby="open-source-title">
+  <div class="section-head" data-reveal>
+    <span class="idx" aria-hidden="true">01</span>
+    <h2 id="open-source-title">open source</h2>
+  </div>
+
+  <ol class="timeline">
+    {
+      contributions.map((item, i) => (
+        <li class:list={["role", { current: item.period.includes("present") }]} data-reveal style={`--i:${i}`}>
+          <p class="period">{item.period}</p>
+          <h3 class="role-title">
+            <span class="dot" aria-hidden="true" />
+            <a href={item.href} target="_blank" rel="noopener noreferrer">{item.project}</a>
+          </h3>
+          <p class="org">
+            {item.role}
+            <span class="sep" aria-hidden="true"> · </span>
+            <a href={mergedPrsUrl(item.repo)} target="_blank" rel="noopener noreferrer">
+              <span data-pr-query={mergedQuery(item.repo)}>{byRepo[item.repo]}</span> merged PRs
+            </a>
+          </p>
+          <p class="role-desc">{item.description}</p>
+        </li>
+      ))
+    }
+  </ol>
+</section>
+
+<style>
+  .open-source {
+    margin: var(--section-gap) 0;
+  }
+
+  .timeline {
+    --dot: 8px;
+    --dot-gap: var(--space-3);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  /* text keeps one column; the bullet hangs in the gutter next to the title */
+  .role {
+    padding: 0 0 var(--space-6) calc(var(--dot) + var(--dot-gap));
+  }
+
+  .role:last-child {
+    padding-bottom: 0;
+  }
+
+  .period {
+    margin: 0 0 var(--space-1);
+    font-family: var(--font-display);
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+  }
+
+  .role.current .period {
+    color: var(--accent);
+  }
+
+  .role-title {
+    position: relative;
+    margin: 0;
+    font-size: 1.375rem;
+    line-height: 1.25;
+  }
+
+  /* same bullet and hover as the waypoint brand in the header */
+  .dot {
+    position: absolute;
+    top: 0.625em; /* middle of the first line (line-height 1.25) */
+    left: calc(-1 * (var(--dot) + var(--dot-gap)));
+    width: var(--dot);
+    height: var(--dot);
+    border-radius: 50%;
+    background: var(--accent);
+    transform: translateY(-50%);
+    transition: transform var(--dur) var(--ease-out);
+  }
+
+  .role:hover .dot {
+    transform: translateY(-50%) scale(1.5);
+  }
+
+  .role-title a {
+    text-decoration: none;
+    transition: color var(--dur-fast) ease;
+  }
+
+  .role-title a:hover {
+    color: var(--accent);
+  }
+
+  .org {
+    margin: var(--space-1) 0 var(--space-3);
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+  }
+
+  .org a {
+    white-space: nowrap; /* "23 merged PRs" wraps as one piece */
+    text-decoration: underline;
+    text-decoration-color: var(--border-strong);
+    text-underline-offset: 3px;
+    transition: color var(--dur-fast) ease, text-decoration-color var(--dur-fast) ease;
+  }
+
+  .org a:hover {
+    color: var(--accent);
+    text-decoration-color: var(--accent);
+  }
+
+  /* inline links: grow the touch area without changing the line spacing */
+  @media (pointer: coarse) {
+    .org a {
+      padding-block: 13px;
+    }
+
+    .role-title a {
+      padding-block: 7px;
+    }
+  }
+
+  .role-desc {
+    max-width: var(--measure);
+    margin: 0;
+    font-size: 0.9375rem;
+    line-height: 1.65;
+    color: var(--text-secondary);
+  }
+
+  /* phones: body copy at 16px, meta a step up so it stays legible */
+  @media (max-width: 480px) {
+    .period {
+      font-size: var(--text-sm);
+    }
+
+    .org {
+      font-size: 0.9375rem;
+    }
+
+    .role-desc {
+      font-size: var(--text-base);
+    }
+  }
+</style>
