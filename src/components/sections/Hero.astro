@@ -12,6 +12,11 @@ const proof = [
 
 <section id="top" class="hero" aria-labelledby="hero-title">
   <div class="hero-text">
+    <!-- seasonal: remove after Hacktoberfest ends (Nov) -->
+    <p class="status" data-reveal style="--i:0">
+      <span class="status-dot" aria-hidden="true"></span>
+      currently: participating in <a href="#highlights">Hacktoberfest 2026</a>
+    </p>
     <p class="kicker" data-reveal style="--i:0">hi, i’m</p>
     <h1 id="hero-title" data-reveal style="--i:1">Lay Patel<span class="stop">.</span></h1>
     <p class="tagline" data-reveal style="--i:2">
@@ -79,6 +84,37 @@ const proof = [
 
   .hero-text {
     max-width: 520px;
+  }
+
+  .status {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin: 0 0 var(--space-5);
+    font-family: var(--font-label);
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+  }
+
+  .status-dot {
+    flex-shrink: 0;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  .status a {
+    color: var(--text-secondary);
+    text-decoration: underline;
+    text-decoration-color: var(--border-strong);
+    text-underline-offset: 3px;
+    transition: color var(--dur-fast) ease, text-decoration-color var(--dur-fast) ease;
+  }
+
+  .status a:hover {
+    color: var(--accent);
+    text-decoration-color: var(--accent);
   }
 
   /* reads as the start of one sentence with the name: "hi, i'm Lay Patel." */
