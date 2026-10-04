@@ -91,6 +91,42 @@ const items = await Promise.all(
     margin: 0;
   }
 
+  /* sub-points in a checkpoint's markdown: white bullets, so they read as
+     smaller steps under the entry rather than more accent-dotted entries */
+  .note :global(ul) {
+    --sub-dot: 8px;
+    display: grid;
+    gap: var(--space-2);
+    margin: var(--space-3) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .note :global(li) {
+    position: relative;
+    max-width: var(--measure);
+    padding-left: calc(var(--sub-dot) + var(--space-3));
+  }
+
+  .note :global(li)::before {
+    content: "";
+    position: absolute;
+    top: 0.825em; /* middle of the first line (line-height 1.65) */
+    left: 0;
+    width: var(--sub-dot);
+    height: var(--sub-dot);
+    box-sizing: border-box;
+    border: 1.5px solid var(--border-strong);
+    border-radius: 50%;
+    background: light-dark(#ffffff, #f2f0ea);
+    transform: translateY(-50%);
+    transition: transform var(--dur) var(--ease-out);
+  }
+
+  .note :global(li:hover)::before {
+    transform: translateY(-50%) scale(1.5);
+  }
+
   .note :global(a) {
     color: var(--text);
     text-decoration: underline;

@@ -87,25 +87,34 @@ const proof = [
   }
 
   .status {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
     margin: 0 0 var(--space-5);
-    font-family: var(--font-label);
+    font-family: var(--font-body);
     font-size: var(--text-xs);
+    font-weight: 300;
     color: var(--text-muted);
   }
 
+  /* same bullet and hover as the waypoint brand in the header */
+  /* inline so the line wraps like normal text on narrow phones */
   .status-dot {
-    flex-shrink: 0;
-    width: 6px;
-    height: 6px;
+    display: inline-block;
+    vertical-align: middle;
+    margin: -2px var(--space-2) 0 0;
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
     background: var(--accent);
+    transition: transform var(--dur) var(--ease-out);
   }
 
+  .status:hover .status-dot {
+    transform: scale(1.5);
+  }
+
+  /* same muted tone as the line so the link doesn't read heavier;
+     the underline is enough to mark it */
   .status a {
-    color: var(--text-secondary);
+    color: inherit;
     text-decoration: underline;
     text-decoration-color: var(--border-strong);
     text-underline-offset: 3px;
